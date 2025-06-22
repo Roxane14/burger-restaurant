@@ -5,30 +5,19 @@ export default class Client {
   private dialogue: Dialogue | undefined;
   private scene: Phaser.Scene;
 
-  constructor(
-    x: number,
-    y: number,
-    scene: Phaser.Scene,
-    previousClientImage?: string
-  ) {
+  constructor(x: number, y: number, scene: Phaser.Scene) {
     this.scene = scene;
     this.image = scene.add
-      .image(x, y, this.getRandomKey(previousClientImage))
+      .image(x, y, this.getRandomKey())
       .setScale(0.5)
       .setInteractive();
   }
 
-  getRandomKey(previousKey?: string): string {
+  getRandomKey(): string {
     const keys = ["client1", "client2", "client3", "client4", "client5"];
-    if (keys.length <= 1) return keys[0];
 
-    let newKey: string;
-    do {
-      const randomIndex = Math.floor(Math.random() * keys.length);
-      newKey = keys[randomIndex];
-    } while (newKey === previousKey);
-
-    return newKey;
+    const randomIndex = Math.floor(Math.random() * keys.length);
+    return keys[randomIndex];
   }
 
   destroy() {
@@ -54,6 +43,7 @@ export default class Client {
   }
 
   leaveTheRestaurant() {
+    this.image.removeInteractive();
     this.dialogue?.displayText("Thank you!", 400, () => {
       this.scene.tweens.add({
         targets: this.image,

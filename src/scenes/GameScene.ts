@@ -42,14 +42,7 @@ export default class GameScene extends Phaser.Scene {
   }
 
   createNewClient() {
-    const newClient = new Client(
-      this.getNewClientPosition(),
-      500,
-      this,
-      this.clients.length > 0
-        ? this.clients[this.clients.length - 1].getImage().name
-        : undefined
-    );
+    const newClient = new Client(this.getNewClientPosition(), 500, this);
 
     newClient.setDialog("Can I have a burger please?");
     newClient.onClick((client) => this.serveClient(client));
@@ -64,8 +57,8 @@ export default class GameScene extends Phaser.Scene {
       y: client.getImage().y - this.chef.height / 2,
       duration: 500,
       onComplete: () => {
-        this.clients.shift();
         client.leaveTheRestaurant();
+        this.clients.shift();
         this.moveTheQueue();
       },
     });
