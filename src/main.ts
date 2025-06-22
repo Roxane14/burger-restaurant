@@ -1,24 +1,60 @@
 import './style.css'
-import typescriptLogo from './typescript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.ts'
 
-document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://www.typescriptlang.org/" target="_blank">
-      <img src="${typescriptLogo}" class="logo vanilla" alt="TypeScript logo" />
-    </a>
-    <h1>Vite + TypeScript</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite and TypeScript logos to learn more
-    </p>
-  </div>
-`
+const canvas = document.getElementById('game') as HTMLCanvasElement
+const ctx = canvas.getContext('2d')!
 
-setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
+canvas.width = 800
+canvas.height = 600
+
+const chefImg = new Image()
+chefImg.src = '/src/assets/chef.png'
+
+const clientImg = new Image()
+clientImg.src = '/src/assets/client.png'
+
+let showDialogue = false
+
+chefImg.onload = () => {  
+  clientImg.onload = () => {
+    draw()
+  }
+}
+
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+  // Fond
+  ctx.fillStyle = '#f9dca5'
+  ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+  // Cuisinière
+  ctx.drawImage(chefImg, 350, 400, 100, 100)
+
+  // Client
+  ctx.drawImage(clientImg, 350, 100, 100, 100)
+
+  // Dialogue
+  if (showDialogue) {
+    ctx.fillStyle = 'white'
+    ctx.fillRect(320, 220, 160, 60)
+    ctx.strokeRect(320, 220, 160, 60)
+    ctx.fillStyle = 'black'
+    ctx.font = '14px sans-serif'
+    ctx.fillText('Bonjour ! Un burger svp.', 330, 250)
+  }
+}
+
+canvas.addEventListener('click', (e) => {
+  const x = e.offsetX
+  const y = e.offsetY
+
+  // Zone cliquée autour du client
+  if (x >= 350 && x <= 450 && y >= 100 && y <= 200) {
+    showDialogue = true
+    draw()
+    setTimeout(() => {
+      showDialogue = false
+      draw()
+    }, 2000)
+  }
+})
