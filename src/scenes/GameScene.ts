@@ -5,11 +5,14 @@ import adventurer from "./../assets/clients/adventurer.png";
 import badass from "./../assets/clients/badass.png";
 import robot from "./../assets/clients/robot.png";
 import zombie from "./../assets/clients/zombie.png";
+import money from "./../assets/icon/money.png";
 import Client from "../elements/client";
+import Money from "../elements/money";
 
 export default class GameScene extends Phaser.Scene {
   private chef!: Phaser.GameObjects.Image;
   private clients: Client[];
+  private money!: Money;
 
   constructor() {
     super("GameScene");
@@ -23,11 +26,16 @@ export default class GameScene extends Phaser.Scene {
     this.load.image("client3", badass);
     this.load.image("client4", robot);
     this.load.image("client5", zombie);
+    this.load.image("money", money);
   }
 
   create() {
     this.chef = this.add.image(400, 150, "chef").setScale(0.5);
+    this.initializeClients();
+    this.money = new Money(this);
+  }
 
+  initializeClients() {
     this.createNewClient();
     this.time.addEvent({
       delay: 2000,
@@ -57,6 +65,7 @@ export default class GameScene extends Phaser.Scene {
       y: client.getImage().y - this.chef.height / 2,
       duration: 500,
       onComplete: () => {
+        this.money.add(4);
         client.leaveTheRestaurant();
         this.clients.shift();
         this.moveTheQueue();
