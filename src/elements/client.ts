@@ -4,6 +4,7 @@ export default class Client {
   private image: Phaser.GameObjects.Image;
   private dialogue: Dialogue | undefined;
   private scene: Phaser.Scene;
+  private moneyToGive: number;
 
   constructor(x: number, y: number, scene: Phaser.Scene) {
     this.scene = scene;
@@ -11,6 +12,7 @@ export default class Client {
       .image(x, y, this.getRandomKey())
       .setScale(0.5)
       .setInteractive();
+    this.moneyToGive = 4;
   }
 
   getRandomKey(): string {
@@ -55,6 +57,12 @@ export default class Client {
       });
       this.dialogue?.destroy();
     });
+  }
+
+  getMoney() {
+    const moneyToReturn = this.moneyToGive;
+    this.moneyToGive = 0;
+    return moneyToReturn;
   }
 
   moveTo(x: number, duration: number, onComplete?: () => void) {

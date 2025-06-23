@@ -65,7 +65,7 @@ export default class GameScene extends Phaser.Scene {
       y: client.getImage().y - this.chef.height / 2,
       duration: 500,
       onComplete: () => {
-        this.money.add(4);
+        this.money.add(client.getMoney());
         client.leaveTheRestaurant();
         this.clients.shift();
         this.moveTheQueue();
