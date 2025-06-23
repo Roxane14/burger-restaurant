@@ -33,7 +33,7 @@ export default class Dialogue {
     if (message) this.text.setText(message);
     this.container.setVisible(true);
     if (duration) {
-      this.container.scene.time.delayedCall(
+      this.container.scene?.time.delayedCall(
         duration,
         callback ||
           (() => {
