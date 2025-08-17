@@ -31,4 +31,9 @@ export default class Money {
     this.amount = this.amount + amount;
     this.moneyText.text = `${this.amount}€`;
   }
+
+  reset() {
+    this.amount = 0;
+    this.moneyText.text = `${this.amount}€`;
+  }
 }

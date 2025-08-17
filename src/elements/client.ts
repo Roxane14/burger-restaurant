@@ -43,6 +43,7 @@ export default class Client {
 
   destroy() {
     this.image.destroy();
+    this.dialogue?.destroy();
   }
 
   setDialog(message: string) {

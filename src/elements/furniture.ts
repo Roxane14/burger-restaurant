@@ -28,8 +28,10 @@ export default abstract class Furniture {
   }
 
   moveTo(foodItem: FoodItem) {
-    this.scene.chef.moveTo(this.location.x - 100, this.location.y, () => {
-      this.scene.chef.addFoodItem(foodItem);
-    });
+    if (this.scene.partManager.getIsGameActive() == true) {
+      this.scene.chef.moveTo(this.location.x - 100, this.location.y, () => {
+        this.scene.chef.addFoodItem(foodItem);
+      });
+    }
   }
 }
